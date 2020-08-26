@@ -6,7 +6,7 @@ public class SeqSearch {
         Scanner systemScan = new Scanner(System.in);
         System.out.println("Input file "+ args[0]);
         File file;
-        file = new File("","./Data/"+args[0]);
+        file = new File("./Data/Data/"+args[0]);
         Scanner fileScan = new Scanner(file);
         float[][] testArray = readArray(file);
         //Terrain Test = new Terrain(testArray);
