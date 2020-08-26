@@ -14,7 +14,7 @@ JAVADOC=docs
 $(BINDIR)/%.class:$(SRCDIR)/%.java
 	$(JAVAC) -d $(BINDIR)/ -cp $(BINDIR) $<
 
-CLASSES= Score.class WordDictionary.class WordRecord.class WordPanel.class WordApp.class
+CLASSES= SeqSearch.class
 CLASS_FILES=$(CLASSES:%.class=$(BINDIR)/%.class)
 
 default: $(CLASS_FILES)
@@ -24,3 +24,6 @@ doc:
 
 clean:
 	rm $(BINDIR)/*.class
+
+runseq:
+	@java -cp bin SeqSearch $(infile)
