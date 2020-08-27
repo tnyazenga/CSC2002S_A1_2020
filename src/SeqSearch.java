@@ -5,29 +5,46 @@ public class SeqSearch {
     public static void main (String[] args) throws Exception {
         Scanner systemScan = new Scanner(System.in);
         System.out.println("Input file "+ args[0]);
-        File file;
-        file = new File("./Data/Data/"+args[0]);
-        Scanner fileScan = new Scanner(file);
-        float[][] testArray = readArray(file);
-        //Terrain Test = new Terrain(testArray);
-        //boolean wudUp = Test.isBasin(154, 212);
-        //System.out.println(wudUp);
-        double time1 = System.currentTimeMillis();
-        for (int i = 0; i < testArray.length; i ++) {
-            for (int j = 0; j < testArray[0].length; j ++){
-                if (isBasin(i, j, testArray) == true) {
+        System.out.println("Output file "+ args[1]);
+        File inputFile;
+        File outputFile;
+        inputFile = new File(""+args[0]);
+        outputFile = new File(""+args[1]);
+        Scanner fileScan = new Scanner(inputFile);
+        float[][] basinData = readData(inputFile);
+
+        FileWriter fileWrite = new FileWriter(""+args[1]);
+
+        ArrayList<String> basins= new ArrayList<String>();
+        int bsn=0;
+
+        double t1 = System.currentTimeMillis();
+        for (int i = 0; i < basinData.length; i ++) {
+            for (int j = 0; j < basinData[0].length; j ++){
+                if (isBasin(i, j, basinData) == true) {
                     System.out.print(i + "  " + j);
+                    basins.add(i + "  " + j);
                     System.out.println();
+                    bsn++;
                 }
             }
         }
-        double time2 =System.currentTimeMillis() - time1;
-        System.out.println(time2);
+        double t2 =System.currentTimeMillis() - t1;
+
+        fileWrite.write(""+bsn);
+        for (String i : basins){
+            fileWrite.write("\n");
+            fileWrite.write(i);
+        }
+
+        fileWrite.close();
+
+        System.out.println("Run time: "+t2+"ms");
     }
-    public static float[][] readArray(File file) throws FileNotFoundException {
+    public static float[][] readData(File file) throws FileNotFoundException {
         Scanner scan = new Scanner(file);
         String info = scan.nextLine();
-        System.out.println(info);
+        //System.out.println("Info: "+info);
         String[] infoSplit = info.split(" ");
         int dim1 = Integer.parseInt(infoSplit[0]);
         int dim2 = Integer.parseInt(infoSplit[1]);
@@ -49,46 +66,32 @@ public class SeqSearch {
 
     public static boolean isBasin(int rowNum, int columnNum, float[][] mountainArray){
         if (rowNum == 0 && columnNum == 0){    // Top left
-            //if (mountainArray[0][1] - mountainArray[0][0] >= 0.01 && mountainArray[1][1] - mountainArray[0][0] >= 0.01 &&
-            //      mountainArray[1][0] - mountainArray[0][0] >= 0.01)
+
             return false;
         }
         else if (rowNum == 0 && columnNum == mountainArray.length -1 ) { // Top Right
-            //if (mountainArray[0][mountainArray.length - 2] - mountainArray[0][mountainArray.length - 1] >= 0.01 && mountainArray[1][mountainArray.length - 2] - mountainArray[0][mountainArray.length - 1] >= 0.01 &&
-            //      mountainArray[1][mountainArray.length-1] - mountainArray[0][mountainArray.length - 1] >= 0.01)
             return false;
         }
         else if(rowNum == mountainArray[0].length -1  && columnNum == 0){ // Bottom left
-            //if (mountainArray[mountainArray[0].length - 2][0] - mountainArray[mountainArray[0].length-1][0] >= 0.01 && mountainArray[mountainArray[0].length - 2][1] - mountainArray[mountainArray[0].length-1][0] >= 0.01 &&
-            //      mountainArray[mountainArray[0].length -1][1] - mountainArray[mountainArray[0].length - 1][0] >= 0.01)
-            //return true;
+            return false;
         }
         else if(rowNum == mountainArray[0].length - 1 && columnNum == mountainArray.length - 1){   // Bottom right
-            //if (mountainArray[mountainArray[0].length - 2][mountainArray.length - 1] - mountainArray[mountainArray[0].length-1][mountainArray.length - 1] >= 0.01 &&
-            //      mountainArray[mountainArray[0].length - 2][mountainArray.length - 2] - mountainArray[mountainArray[0].length-1][mountainArray.length - 1] >= 0.01 &&
-            //    mountainArray[mountainArray[0].length -1][mountainArray.length -2] - mountainArray[mountainArray[0].length - 1][mountainArray.length - 1] >= 0.01)
             return false;
         }
         else if (columnNum == 0){   // Left of box
-            //if (mountainArray[rowNum - 1][columnNum] - mountainArray[rowNum][columnNum] >= 0.01 && mountainArray[rowNum-1][columnNum + 1] - mountainArray[rowNum][columnNum] >= 0 &&
-            //      mountainArray[rowNum][columnNum + 1] - mountainArray[rowNum][columnNum] >= 0 &&
-            //    mountainArray[rowNum + 1][columnNum] - mountainArray[rowNum][columnNum] >= 0 && mountainArray[rowNum + 1][columnNum + 1] - mountainArray[rowNum][columnNum] >= 0.01)
+
             return false;
         }
         else if (columnNum == mountainArray.length - 1) {   // Right of box
-            //if (mountainArray[rowNum - 1][columnNum] - mountainArray[rowNum][columnNum] >= 0.01 && mountainArray[rowNum - 1][columnNum -1] - mountainArray[rowNum][columnNum] >= 0.01 &&
-            //      mountainArray[rowNum][columnNum -1] - mountainArray[rowNum][columnNum] >= 0 &&
-            //    mountainArray[rowNum + 1][columnNum] - mountainArray[rowNum][columnNum] >= 0 && mountainArray[rowNum + 1][columnNum-1] - mountainArray[rowNum][columnNum] >= 0)
+
             return false;
         }
         else if (rowNum == 0){   // Top of box
-            //if (mountainArray[rowNum][columnNum + 1] - mountainArray[rowNum][columnNum] >= 0 && mountainArray[rowNum][columnNum -1] - mountainArray[rowNum][columnNum] >= 0 &&
-            //      mountainArray[rowNum + 1][columnNum] - mountainArray[rowNum][columnNum] >= 0 && mountainArray[rowNum + 1][columnNum + 1] - mountainArray[rowNum][columnNum] >= 0.01 && mountainArray[rowNum - 1][columnNum-1] - mountainArray[rowNum][columnNum] >= 0)
+
             return false;
         }
         else if (rowNum == mountainArray[0].length - 1) { //Bottom of box
-            //if (mountainArray[rowNum - 1][columnNum] - mountainArray[rowNum][columnNum] >= 0.01 && mountainArray[rowNum-1][columnNum + 1] - mountainArray[rowNum][columnNum] >= 0 && mountainArray[rowNum + 1][columnNum -1] - mountainArray[rowNum][columnNum] >= 0.01 &&
-            //      mountainArray[rowNum][columnNum + 1] - mountainArray[rowNum][columnNum] >= 0 && mountainArray[rowNum][columnNum -1] - mountainArray[rowNum][columnNum] >= 0 )
+
             return false;
         }
         else {  // General case

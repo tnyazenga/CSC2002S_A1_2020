@@ -26,4 +26,4 @@ clean:
 	rm $(BINDIR)/*.class
 
 runseq:
-	@java -cp bin SeqSearch $(infile)
+	@java -cp bin SeqSearch $(infile) $(outfile)
