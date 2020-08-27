@@ -14,7 +14,7 @@ JAVADOC=docs
 $(BINDIR)/%.class:$(SRCDIR)/%.java
 	$(JAVAC) -d $(BINDIR)/ -cp $(BINDIR) $<
 
-CLASSES= SeqSearch.class
+CLASSES= SeqSearch.class FindBasin.class ParSearch.class
 CLASS_FILES=$(CLASSES:%.class=$(BINDIR)/%.class)
 
 default: $(CLASS_FILES)
@@ -27,3 +27,6 @@ clean:
 
 runseq:
 	@java -cp bin SeqSearch $(infile) $(outfile)
+
+runseq:
+	@java -cp bin ParSearch $(infile) $(outfile)

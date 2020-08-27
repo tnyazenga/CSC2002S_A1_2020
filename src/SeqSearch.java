@@ -22,8 +22,8 @@ public class SeqSearch {
         for (int i = 0; i < basinData.length; i ++) {
             for (int j = 0; j < basinData[0].length; j ++){
                 if (isBasin(i, j, basinData) == true) {
-                    System.out.print(i + "  " + j);
-                    basins.add(i + "  " + j);
+                    System.out.print(i + " " + j);
+                    basins.add(i + " " + j);
                     System.out.println();
                     bsn++;
                 }
@@ -64,25 +64,25 @@ public class SeqSearch {
         return array;
     }
 
-    public static boolean isBasin(int rowNum, int columnNum, float[][] mountainArray){
+    public static boolean isBasin(int rowNum, int columnNum, float[][] basinData){
         if (rowNum == 0 && columnNum == 0){    // Top left
 
             return false;
         }
-        else if (rowNum == 0 && columnNum == mountainArray.length -1 ) { // Top Right
+        else if (rowNum == 0 && columnNum == basinData.length -1 ) { // Top Right
             return false;
         }
-        else if(rowNum == mountainArray[0].length -1  && columnNum == 0){ // Bottom left
+        else if(rowNum == basinData[0].length -1  && columnNum == 0){ // Bottom left
             return false;
         }
-        else if(rowNum == mountainArray[0].length - 1 && columnNum == mountainArray.length - 1){   // Bottom right
+        else if(rowNum == basinData[0].length - 1 && columnNum == basinData.length - 1){   // Bottom right
             return false;
         }
         else if (columnNum == 0){   // Left of box
 
             return false;
         }
-        else if (columnNum == mountainArray.length - 1) {   // Right of box
+        else if (columnNum == basinData.length - 1) {   // Right of box
 
             return false;
         }
@@ -90,14 +90,19 @@ public class SeqSearch {
 
             return false;
         }
-        else if (rowNum == mountainArray[0].length - 1) { //Bottom of box
+        else if (rowNum == basinData[0].length - 1) { //Bottom of box
 
             return false;
         }
         else {  // General case
-            if (mountainArray[rowNum + 1][columnNum] - mountainArray[rowNum][columnNum] >= 0.01 && mountainArray[rowNum+1][columnNum + 1] - mountainArray[rowNum][columnNum] >= 0.01 && mountainArray[rowNum + 1][columnNum -1] - mountainArray[rowNum][columnNum] >= 0.01 &&
-                    mountainArray[rowNum][columnNum + 1] - mountainArray[rowNum][columnNum] >= 0.01 && mountainArray[rowNum][columnNum -1] - mountainArray[rowNum][columnNum] >= 0.01 &&
-                    mountainArray[rowNum - 1][columnNum] - mountainArray[rowNum][columnNum] >= 0.01 && mountainArray[rowNum - 1][columnNum + 1] - mountainArray[rowNum][columnNum] >= 0.01 && mountainArray[rowNum - 1][columnNum-1] - mountainArray[rowNum][columnNum] >= 0.01)
+            if (basinData[rowNum + 1][columnNum] - basinData[rowNum][columnNum] >= 0.01 &&
+                basinData[rowNum+1][columnNum + 1] - basinData[rowNum][columnNum] >= 0.01 &&
+                basinData[rowNum + 1][columnNum -1] - basinData[rowNum][columnNum] >= 0.01 &&
+                basinData[rowNum][columnNum + 1] - basinData[rowNum][columnNum] >= 0.01 &&
+                basinData[rowNum][columnNum -1] - basinData[rowNum][columnNum] >= 0.01 &&
+                basinData[rowNum - 1][columnNum] - basinData[rowNum][columnNum] >= 0.01 &&
+                basinData[rowNum - 1][columnNum + 1] - basinData[rowNum][columnNum] >= 0.01 &&
+                basinData[rowNum - 1][columnNum-1] - basinData[rowNum][columnNum] >= 0.01)
                 return true;
         }
         return false;
